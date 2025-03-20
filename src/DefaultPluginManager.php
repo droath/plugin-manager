@@ -9,6 +9,8 @@ use Droath\PluginManager\Contracts\PluginManagerInterface;
 use Droath\PluginManager\Contracts\PluginDiscoveryInterface;
 use Droath\PluginManager\Exceptions\PluginNotFoundException;
 use Droath\PluginManager\Exceptions\PluginManagerRuntimeException;
+use Droath\PluginManager\Contracts\PluginContainerInjectionInterface;
+use Droath\PluginManager\Contracts\PluginManagerContainerAwareInterface;
 
 /**
  * Define the base default plugin manager.
@@ -68,6 +70,16 @@ abstract class DefaultPluginManager implements PluginManagerInterface
             );
         }
         unset($definition['class']);
+
+        if (is_subclass_of($class, PluginContainerInjectionInterface::class)) {
+            if (! $this instanceof PluginManagerContainerAwareInterface) {
+                throw new PluginManagerRuntimeException(
+                    'The plugin manager must implement \Droath\PluginManager\Contracts\PluginManagerContainerAwareInterface.'
+                );
+            }
+
+            return $class::create($this->getContainer(), $configurations, $definition);
+        }
 
         return new $class($configurations, $definition);
     }
