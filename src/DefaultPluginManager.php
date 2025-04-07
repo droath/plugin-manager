@@ -128,6 +128,8 @@ abstract class DefaultPluginManager implements PluginManagerInterface
             $options[$pluginId] = $definition['label'];
         }
 
+        natsort($options);
+
         return $options;
     }
 }
