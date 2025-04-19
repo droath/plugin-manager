@@ -7,15 +7,15 @@ namespace Droath\PluginManager\Plugin;
 use Droath\PluginManager\Contracts\PluginInterface;
 
 /**
- * Define the abstract base plugin.
+ * Define the abstract plugin base.
  */
-abstract class BasePlugin implements PluginInterface
+abstract class PluginBase implements PluginInterface
 {
     /**
-     * The base plugin contractor.
+     * The plugin base contractor.
      *
      * @param array $configuration
-     *   An array of plugin configuration.
+     *   An array of plugin configurations.
      * @param array $pluginDefinition
      *   An array of plugin definition.
      */
