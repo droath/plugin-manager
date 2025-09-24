@@ -31,7 +31,8 @@ abstract class DefaultPluginManager implements PluginManagerInterface
      * The plugin manager constructor.
      *
      * @param \Droath\PluginManager\Contracts\PluginDiscoveryInterface $discovery
-     *   The discovery instance responsible in locating the manager plugins.
+     *   The discovery instance is responsible for locating the manager
+     *     plugins.
      */
     public function __construct(
         protected PluginDiscoveryInterface $discovery
@@ -62,6 +63,7 @@ abstract class DefaultPluginManager implements PluginManagerInterface
                 sprintf('The plugin "%s" is not found.', $pluginId)
             );
         }
+        /** @var class-string<PluginInterface> $class */
         $class = $definition['class'];
 
         if (! class_exists($class)) {
@@ -69,12 +71,20 @@ abstract class DefaultPluginManager implements PluginManagerInterface
                 sprintf('The plugin "%s" class does not exist.', $class)
             );
         }
+        if (! is_subclass_of($class, PluginInterface::class)) {
+            throw new PluginManagerRuntimeException(
+                sprintf('The plugin "%s" must implement %s.', $class, PluginInterface::class)
+            );
+        }
         unset($definition['class']);
 
         if (is_subclass_of($class, PluginContainerInjectionInterface::class)) {
             if (! $this instanceof PluginManagerContainerAwareInterface) {
                 throw new PluginManagerRuntimeException(
-                    'The plugin manager must implement \Droath\PluginManager\Contracts\PluginManagerContainerAwareInterface.'
+                    sprintf(
+                        'The plugin manager must implement %s.',
+                        PluginManagerContainerAwareInterface::class
+                    )
                 );
             }
 
@@ -98,7 +108,6 @@ abstract class DefaultPluginManager implements PluginManagerInterface
     public function getDefinitions(): array
     {
         if (! $this->useCache || empty($this->definitions)) {
-            /** @var \Droath\PluginManager\Discovery\PluginMetadata $metadata */
             foreach ($this->discovery->find() as $metadata) {
                 $pluginDefinition = $metadata->pluginDefinition;
 

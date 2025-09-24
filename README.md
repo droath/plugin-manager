@@ -117,7 +117,6 @@ final class ContainerBackedPlugin extends PluginBase implements PluginContainerI
     public function __construct(
         array $configuration,
         array $pluginDefinition,
-        private ContainerInterface $container
     ) {
         parent::__construct($configuration, $pluginDefinition);
     }
@@ -125,14 +124,9 @@ final class ContainerBackedPlugin extends PluginBase implements PluginContainerI
     public static function create(
         ContainerInterface $container,
         array $configuration,
-        array $pluginDefinitions,
+        array $pluginDefinition,
     ): static {
-        return new static($configuration, $pluginDefinitions, $container);
-    }
-
-    public function getContainer(): ContainerInterface
-    {
-        return $this->container;
+        return new static($configuration, $pluginDefinition, $container->get('service_id');
     }
 }
 ```
