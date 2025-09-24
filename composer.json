@@ -12,12 +12,28 @@
     "require": {
         "kcs/class-finder": "^0.5.4"
     },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "format": "vendor/bin/phpcbf",
+        "analyze": "vendor/bin/phpstan analyse"
+    },
     "autoload": {
         "psr-4": {
             "Droath\\PluginManager\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Droath\\PluginManager\\Tests\\": "tests/"
+        }
+    },
     "require-dev": {
+        "pestphp/pest": "^4.1",
         "phpstan/phpstan": "^1.12",
         "squizlabs/php_codesniffer": "^3.10"
     }

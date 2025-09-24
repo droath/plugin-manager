@@ -1,2 +1,4 @@
 /vendor
-composer.lock
+/AGENTS.md
+/composer.lock
+/.phpunit.result.cache
