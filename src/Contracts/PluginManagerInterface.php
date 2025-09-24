@@ -17,6 +17,13 @@ interface PluginManagerInterface
     public function disableCache(): static;
 
     /**
+     * Reset the cached plugin definitions.
+     *
+     * @return $this
+     */
+    public function resetCache(): static;
+
+    /**
      * Create the plugin instance.
      *
      * @throws \Droath\PluginManager\Exceptions\PluginNotFoundException

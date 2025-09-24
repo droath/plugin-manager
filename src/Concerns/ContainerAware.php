@@ -1,10 +1,12 @@
 <?php
 
+
 declare(strict_types=1);
 
 namespace Droath\PluginManager\Concerns;
 
 use Psr\Container\ContainerInterface;
+use Droath\PluginManager\Exceptions\PluginManagerRuntimeException;
 
 trait ContainerAware
 {
@@ -18,6 +20,12 @@ trait ContainerAware
      */
     public function getContainer(): ContainerInterface
     {
+        if ($this->container === null) {
+            throw new PluginManagerRuntimeException(
+                'The plugin manager container has not been configured.'
+            );
+        }
+
         return $this->container;
     }
 

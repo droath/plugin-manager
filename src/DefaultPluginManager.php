@@ -44,7 +44,7 @@ abstract class DefaultPluginManager implements PluginManagerInterface
     {
         $this->useCache = false;
 
-        return $this;
+        return $this->resetCache();
     }
 
     /**
@@ -97,7 +97,7 @@ abstract class DefaultPluginManager implements PluginManagerInterface
      */
     public function getDefinitions(): array
     {
-        if (! $this->useCache || count($this->definitions) === 0) {
+        if (! $this->useCache || empty($this->definitions)) {
             /** @var \Droath\PluginManager\Discovery\PluginMetadata $metadata */
             foreach ($this->discovery->find() as $metadata) {
                 $pluginDefinition = $metadata->pluginDefinition;
@@ -131,5 +131,15 @@ abstract class DefaultPluginManager implements PluginManagerInterface
         natsort($options);
 
         return $options;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function resetCache(): static
+    {
+        $this->definitions = [];
+
+        return $this;
     }
 }
