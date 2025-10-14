@@ -1,5 +1,6 @@
 {
     "name": "droath/plugin-manager",
+    "description": "A lightweight PHP package for defining, discovering and instantiating pluggable services.",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
